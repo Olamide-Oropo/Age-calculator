@@ -1,0 +1,144 @@
+:root{
+    --Purple: hsl(259, 100%, 65%) ;
+    --Light-red: hsl(0, 100%, 67%);
+    --White: hsl(0, 0%, 100%);
+    --Off-white: hsl(0, 0%, 94%);
+    --Light-grey: hsl(0, 0%, 86%);
+    --Smokey-grey: hsl(0, 1%, 44%);
+    --Off-black: hsl(0, 0%, 8%);
+    --input-fs:22px;
+    --fw-light:400;
+    --fw-md:700;
+    --fw-lg:800;
+    --lg-br:5rem;
+    --sm-br:.5rem;
+}
+@font-face {
+    font-family: 'Poppins';
+    src: url(./assets/fonts/Poppins-Regular.ttf);
+}
+body{
+    width:100vw;
+    height:100vh;
+    min-height: 100vh;
+    background-color: var(--Off-white);
+    display:grid;
+    place-items:center;
+    font-family: 'Poppins',sans-serif;
+}
+main{
+    width: 50%;
+    max-width:calc(500px - 3rem);
+    min-width: calc(300px - 3rem);
+    background-color: var(--White);
+    padding: 1.5rem;
+    border-radius: var(--sm-br);
+    border-bottom-right-radius: 5rem;
+}
+.form-fields{
+    display: flex;
+    gap:20px;
+    align-items: start;
+}
+.form-fields section{
+    display: grid;
+    justify-items: start;
+    gap:10px
+}
+.form-fields section > p{
+    color: var(--Light-red);
+    font-size: 12px;
+    margin: .2rem;
+    font-weight: var(--fw-light);
+}
+label{
+    font-size: 13px;
+    color:var(--Smokey-grey);
+    text-transform: uppercase;
+    font-weight: var(--fw-md);
+    transition: .3s linear;
+}
+input[type=number]{
+    border-radius: var(--sm-br);
+    border: 1px solid var(--Light-grey);
+    width: 80px;
+    font-size: var(--input-fs);
+    font-weight: var(--fw-md);
+    color:var(--Off-black);
+    padding: .5rem;
+    transition: .4s ease;
+    caret-color: var(--Purple);
+    font-family: 'Poppins',sans-serif;
+}
+input[type=number]::placeholder{
+    color:var(--Smokey-grey)
+}
+input[type=number]:focus{
+    outline: 1px solid var(--Purple);
+    border:none
+}
+.AgeDisplay{
+    display: grid;
+    gap:15px;
+    margin-top: 2.5rem;
+}
+.AgeDisplay article{
+    display: flex;
+    align-items: center;
+    gap:6px;
+}
+.AgeDisplay article p{
+    width: fit-content;
+    margin: 0;
+    font-size: 60px;
+    transition: .2s linear;
+}
+.AgeDisplay article p:first-child{
+    color: var(--Purple);
+    font-weight: var(--fw-lg);
+}
+.AgeDisplay article p:last-child{
+    text-transform: capitalize;
+    font-weight: var(--fw-lg);
+}
+.btn-section{
+    position: relative;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    margin-top: 2.5rem;
+}
+.btn-section hr{
+    width: 100%;
+    height: 1px;
+    border: 0;
+    background-color: var(--Light-grey);
+}
+.btn-section button{
+    position: absolute;
+    right:0;
+    background-color: var(--Purple);
+    border-radius: 50%;
+    border: none;
+    padding: .5rem;
+    transition: .4s ease-in;
+    cursor: pointer;
+}
+.btn-section button:focus,.btn-section button:hover{
+    background-color: var(--Off-black);
+}
+@media screen and (max-width:500px) {
+    .AgeDisplay article p{
+        font-size: 45px;
+    }
+    .form-fields{
+        gap:10px
+    }
+    input[type=number]{
+        width: 65px;
+    }
+    .btn-section button{
+        right: 50%;
+        transform: translateX(50%);
+    }
+}

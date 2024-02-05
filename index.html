@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- displays site properly based on user's device -->
+
+  <link rel="icon" type="image/png" sizes="32x32" href="./assets/images/favicon-32x32.png">
+  <link rel="stylesheet" href="./styles.css">
+  <title>Frontend Mentor | Age calculator app</title>
+
+  <!-- Feel free to remove these styles or customise in your own stylesheet 👍 -->
+  <style>
+    .attribution { font-size: 11px; text-align: center; }
+    .attribution a { color: hsl(228, 45%, 44%); }
+  </style>
+</head>
+<body>
+  <main>
+    <section>
+      <section class="form-fields">
+        <section>
+          <label id="day-label">Day</label>
+          <input type="number" name="Day" id="day" placeholder="DD"/>
+          <p id="day-err" class="err"></p>
+        </section>
+        <section>
+          <label id="month-label">Month</label>
+          <input type="number" name="Month" id="month" placeholder="MM"/>
+          <p id="month-err" class="err"></p>
+        </section>
+        <section>
+          <label id="year-label">Year</label>
+          <input type="number" name="Year" id="year" placeholder="YYYY"/>
+          <p id="year-err" class="err"></p>
+        </section>
+      </section>
+      <section class="btn-section">
+        <hr />
+        <button id="btn">
+          <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" viewBox="0 0 46 44">
+            <g fill="none" stroke="#FFF" stroke-width="2">
+              <path d="M1 22.019C8.333 21.686 23 25.616 23 44M23 44V0M45 22.019C37.667 21.686 23 25.616 23 44" />
+            </g>
+          </svg>
+          <span></span>
+        </button>
+      </section>
+    </section>
+    <section class="AgeDisplay">
+      <article>
+        <p id="show-years">--</p>
+        <p>Years</p>
+      </article>
+      <article>
+        <p id="show-months">--</p>
+        <p>Months</p>
+      </article>
+      <article>
+        <p id="show-days">--</p>
+        <p>Days</p>
+      </article>
+    </section>
+  </main>
+  <div class="attribution">
+    Challenge by <a href="https://www.frontendmentor.io?ref=challenge" target="_blank">Frontend Mentor</a>. 
+    Coded by <a href="mailto:oropohabib@gmail.com" target="_blank">Oropo Habib Olamide</a>.
+  </div>
+</body>
+<script>
+  var day = document.getElementById("day");
+  var month = document.getElementById("month");
+  var year = document.getElementById("year");
+  var btn = document.getElementById("btn");
+  var bday = null;
+  const isValidDate = (day,month,year) =>{
+    month -=1
+    const date = new Date(year,month,day)
+    return [date.getDate() === Number(day),date.getMonth() === Number(month), date.getFullYear() === Number(year)]
+  }
+  function SteadyIncrease(el,stopNumber){
+    let count = 0;
+    const IntervalID = setInterval(() => {
+      el.innerText = count
+      if(count == stopNumber){
+        clearInterval(IntervalID);
+      }
+      count ++
+    },50)
+  }
+  function millisecondsToYearsMonthsDays(milliseconds) {
+    const seconds = Math.floor(milliseconds / 1000);
+    const minutes = Math.floor(seconds / 60);
+    const hours = Math.floor(minutes / 60);
+    const days = Math.floor(hours / 24);
+
+    const years = Math.floor(days / 365);
+    const months = Math.floor((days % 365) / 30);
+    const remainingDays = days % 365 % 30;
+
+    return {
+      years,
+      months,
+      days: remainingDays,
+    };
+  }
+  btn.addEventListener("click",() => {
+    const getYear = new Date()
+    const dateArr = [day,month,year]
+    const bday = (Number(year.value),Number((month.value - 1)),Number(day.value))
+    var valid = true
+    dateArr.forEach(date => {
+      if(date.value == ""){
+        document.getElementById(`${date.id}-err`).innerText = "This field is required"
+        document.getElementById(`${date.id}-label`).style.setProperty("color","hsl(0, 100%, 67%)")
+        valid = false
+      }
+      else{
+        isValidDate(day.value, month.value, year.value).forEach((bool, i) => {
+          if (bool === false) {
+            valid = false
+            document.getElementById(`${dateArr[i].id}-err`).innerText = `Must be a Valid ${dateArr[i].id}`
+            document.getElementById(`${dateArr[i].id}-label`).style.setProperty("color", "hsl(0, 100%, 67%)")
+          }
+        })
+      }
+    })
+    if(valid){
+      if(year.value > getYear.getFullYear()){
+        document.getElementById("year-err").innerText ="Must be in the past"
+        document.getElementById("year-label").style.color = "hsl(0, 100%, 67%)"
+      }else{
+        const bdate = new Date(Number(year.value), Number((month.value - 1)), Number(day.value))
+        const Age = millisecondsToYearsMonthsDays(getYear - bdate);
+        SteadyIncrease(document.getElementById("show-years"), Age.years)
+        SteadyIncrease(document.getElementById("show-months"), Age.months)
+        SteadyIncrease(document.getElementById("show-days"), Age.days)
+        document.querySelectorAll(".err").forEach(item => {
+          item.innerText = ""
+        })
+        const labels = ["day-label", "month-label", "year-label"]
+        labels.forEach(label => {
+          document.getElementById(label).style.color = "hsl(0, 1%, 44%)"
+        })
+      }
+    }
+  })
+</script>
+</html>
